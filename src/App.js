@@ -24,9 +24,6 @@ class App extends React.Component {
   searchUser = async (text) => {
     console.log(text)
     const params = text
-    const headers= {
-      "Authorization": "Token 8ad0ce7c631308d4d5fe9c5a12655b1ba3443940"
-    }
     const res = await axios.get(`https://api.github.com/users?q=${params}`)
     console.log(res.data)
     this.setState({users: res.data, loading: false})
