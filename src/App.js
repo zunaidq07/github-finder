@@ -12,21 +12,25 @@ class App extends React.Component {
   }
   async componentDidMount() {
     this.setState({loading: true})
-    const res = await axios.get(`https://api.github.com/users?client_id=
-    ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
-    ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    // const res = await axios.get(`https://api.github.com/users?client_id=
+    // ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
+    // ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
 
-    this.setState({users: res.data, loading: false})
+    // const res = await axios.get(`https://api.github.com/users`)
+
+    // this.setState({users: res.data, loading: false})
   }
 
-  searchUser = async(text) => {
+  searchUser = async (text) => {
     console.log(text)
+    const headers= {
+      "authorization": "Token 8ad0ce7c631308d4d5fe9c5a12655b1ba3443940"
+    }
     const res = await axios.get(
-      `https://api.github.com/users?q=${text}&client_id=${
-        process.env.REACT_APP_GITHUB_CLIENT_ID
-      }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
-    console.log(res.data.item)
-    this.setState({users: res.data.items, loading: false})
+      `https://api.github.com/users?q=${text}`,{"headers": headers}
+    )
+    console.log(res.data)
+    this.setState({users: res.data, loading: false})
   }
   render() {
     const { loading, users } = this.state;
