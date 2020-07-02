@@ -16,19 +16,18 @@ class App extends React.Component {
     // ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
     // ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
 
-    // const res = await axios.get(`https://api.github.com/users`)
+    const res = await axios.get(`https://api.github.com/users`)
 
-    // this.setState({users: res.data, loading: false})
+    this.setState({users: res.data, loading: false})
   }
 
   searchUser = async (text) => {
     console.log(text)
+    const params = text
     const headers= {
-      "authorization": "Token 8ad0ce7c631308d4d5fe9c5a12655b1ba3443940"
+      "Authorization": "Token 8ad0ce7c631308d4d5fe9c5a12655b1ba3443940"
     }
-    const res = await axios.get(
-      `https://api.github.com/users?q=${text}`,{"headers": headers}
-    )
+    const res = await axios.get(`https://api.github.com/users?q=${params}`)
     console.log(res.data)
     this.setState({users: res.data, loading: false})
   }
