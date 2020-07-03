@@ -1,43 +1,46 @@
-import React from 'react';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './components/Layout/Navbar'
-import Users from './components/Users/Users'
-import Search from './components/Users/Search'
-import axios from 'axios'
+import About from './components/Pages/About'
+import Alert from './components/Layout/Alert'
+import User from './components/Users/User'
+import Home from './components/Pages/Home'
 
-class App extends React.Component {
-  state = {
-    users: [],
-    loading: false
-  }
-  async componentDidMount() {
-    this.setState({loading: true})
-    // const res = await axios.get(`https://api.github.com/users?client_id=
-    // ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
-    // ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+import GithubState from './context/github/GithubState'
+import AlertState from './context/alert/alertState'
+import NotFound from './components/Pages/NotFound';
 
-    const res = await axios.get(`https://api.github.com/users`)
+import './App.css';
 
-    this.setState({users: res.data, loading: false})
-  }
+const App = () => {
 
-  searchUser = async (text) => {
-    console.log(text)
-    const params = text
-    const res = await axios.get(`https://api.github.com/users?q=${params}`)
-    console.log(res.data)
-    this.setState({users: res.data, loading: false})
-  }
-  render() {
-    const { loading, users } = this.state;
-    return (
-      <div className="App">
-        <Navbar />
-        <Search searchUser={this.searchUser}/>
-        <Users loading={loading} users={users} />
-      </div>
-    );
-  }
+  // useEffect(() => {  
+  // setLoading(true) 
+  // axios.get(`https://api.github.com/users`).then(res => {
+  //   setUsers(res.data)
+  //   setLoading(false)
+  // })
+
+  // }, [])
+
+  return (
+    <GithubState>
+      <AlertState>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Alert />
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/about' component={About}/>
+              <Route exact path='/user/:login' component={User}/>
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Router>
+      </AlertState>
+    </GithubState>
+  );
 }
 
 export default App;
